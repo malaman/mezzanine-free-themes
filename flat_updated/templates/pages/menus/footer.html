@@ -1,0 +1,52 @@
+{% load i18n future pages_tags blog_tags keyword_tags mezzanine_tags %}
+
+
+<div class="col-md-3 col-sm-6">
+    <h4>About Us</h4>
+    <p>We build software products people love</p>
+</div><!--/.col-md-3-->
+<div class="col-md-3 col-sm-6">
+    <h4>Social</h4>
+    <ul class="social pull-left">
+        <li><a href="https://www.facebook.com/pages/BytesArea/1519574604958121?ref=aymt_homepage_panel"><i class="icon-facebook"></i></a></li>
+        <li><a href="https://twitter.com/BytesArea"><i class="icon-twitter"></i></a></li>
+        <li><a href="https://plus.google.com/b/117688873727387333279"><i class="icon-google-plus"></i></a></li>
+        <!--<li><a href="#"><i class="icon-youtube"></i></a></li>
+        <li><a href="#"><i class="icon-tumblr"></i></a></li>
+        <li><a href="#"><i class="icon-dribbble"></i></a></li>
+        <li><a href="#"><i class="icon-rss"></i></a></li>
+        <li><a href="#"><i class="icon-github-alt"></i></a></li>
+        <li><a href="#"><i class="icon-instagram"></i></a></li>--!>
+    </ul>
+</div> <!--/.col-md-3-->
+<div class="col-md-3 col-sm-6">
+		{% block blog_recent_posts %}
+			{% blog_recent_posts 3 as recent_posts %}
+				{% if recent_posts %}
+                    <h4>{% trans "Recent Posts" %}</h4>
+                    <div>
+						{% for recent_post in recent_posts %}
+                        <div class="media">
+                            <div class="pull-left">
+								{% if settings.BLOG_USE_FEATURED_IMAGE and recent_post.featured_image %}
+								
+								<a href="{{ recent_post.get_absolute_url }}">
+									<img width="100%" class="img-responsive img-blog" src="{{ MEDIA_URL }}{% thumbnail recent_post.featured_image 90 90 %}">
+								</a>
+									
+								{% endif %}
+                                
+                            </div>
+                            <div class="media-body">
+                                <span class="media-heading"><a href="{{ recent_post.get_absolute_url }}">{{ recent_post.title }}</a></span>
+                                <small class="muted">{% blocktrans with sometime=recent_post.publish_date|timesince %}{{ sometime }} ago{% endblocktrans %}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+              
+                {% endif %}
+
+{% endblock %}
+</div>

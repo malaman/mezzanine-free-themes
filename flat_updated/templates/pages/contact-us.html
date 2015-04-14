@@ -1,0 +1,62 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags %}
+
+{% block main %}
+{{ block.super }}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            {% if request.GET.sent %}
+                {% editable page.form.response %}
+                {{ page.form.response|richtext_filters|safe }}
+                {% endeditable %}
+            {% else %}
+                {% with page.form as page_form %}
+                <div class="gap"></div>
+                {% editable page_form.content %}
+                {{ page_form.content|richtext_filters|safe }}
+                {% endeditable %}
+                <div class="gap"></div>
+                {% endwith %}
+
+                {% errors_for form %}
+
+                <form class="mezzanine-form" method="post"{% if form.is_multipart %} enctype="multipart/form-data"{% endif %}>
+                    {% fields_for form %}
+                    <div class="form-actions">
+                        <input class="btn btn-primary btn-lg" type="submit" value="{{ page.form.button_text }}">
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="gap"></div>
+            <h3>Our contacts:</h3>
+            <div class="gap"></div>
+            <button type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-envelope"></span>
+                <a class="link link_email" href="mailto:info@bytesarea.com?subject=Feedback%20from%20BytesArea.com" target="blank">info@bytesarea.com</a>
+            </button>
+            <br><br>
+            <button type="button" class="btn btn-default btn-lg">
+                  <span class="glyphicon glyphicon-phone"></span> <a href="tel:+11111111">+11111111</a>
+            </button>
+            <br><br>
+            <button type="button" class="btn btn-default btn-lg">
+                <span class="icon-skype"></span> <a href="skype:andrii.malaman">Andrii.Malaman</a>
+            </button>
+        </div>
+
+        </div>
+    </div> <!--row-->
+</div> <!--container-->
+{% endblock %}
+
+
+{% block extra_js %}
+{{ block.super }}
+<script>
+$(function() {$('.mezzanine-form :input:visible:enabled:first').focus();});
+</script>
+{% endblock %}
